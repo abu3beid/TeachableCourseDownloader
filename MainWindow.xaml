@@ -1,0 +1,84 @@
+<ui:FluentWindow x:Class="VideoDownloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Teachable Course Downloader" Height="750" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="Teachable Course Downloader"/>
+
+        <Grid Grid.Row="1" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header Section -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                <ui:TextBlock FontTypography="Title" Text="Course Downloader" />
+                <ui:TextBlock FontTypography="Body" Text="Navigate to your course and let the auto-scraper do the rest." Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+            
+            <!-- Address Bar & Action Card -->
+            <ui:Card Grid.Row="1" Margin="0,0,0,24" Padding="16">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <ComboBox x:Name="BrowserAddressBox" Grid.Column="0" Margin="0,0,12,0" IsEditable="True" Text="Paste course URL here and click Go..." VerticalAlignment="Center" KeyDown="BrowserAddressBox_KeyDown" Height="36"/>
+                        
+                        <ui:Button x:Name="BrowserGoButton" Grid.Column="1" Content="Navigate" Click="BrowserGoButton_Click" Margin="0,0,12,0" Height="36" Appearance="Primary" />
+                        <ui:Button x:Name="StartScrapingButton" Grid.Column="2" Content="Start Auto-Download" Appearance="Success" Click="StartScrapingButton_Click" Height="36" />
+                    </Grid>
+                    
+                    <ui:CardExpander Header="Advanced Headers (403 Bypass)" Margin="0,16,0,0">
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Text="Set these if videos fail to download (403 Forbidden). Find them in the Network tab when the video plays." Margin="0,0,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Origin:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                <ui:TextBox x:Name="OriginTextBox" Grid.Column="1" Text="https://player.hotmart.com" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Referer:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                <ui:TextBox x:Name="RefererTextBox" Grid.Column="1" Text="https://player.hotmart.com/" />
+                            </Grid>
+                        </StackPanel>
+                    </ui:CardExpander>
+                </StackPanel>
+            </ui:Card>
+            
+            <!-- Browser Area -->
+            <Border Grid.Row="2" CornerRadius="8" ClipToBounds="True" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                <wv2:WebView2 x:Name="webView" />
+            </Border>
+            
+            <!-- Logs Area -->
+            <ui:Card Grid.Row="3" Margin="0,24,0,0" Padding="0">
+                <ui:TextBox x:Name="ScraperLogTextBox" Height="150" FontFamily="Consolas" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" BorderThickness="0" Background="Transparent" Padding="12"/>
+            </ui:Card>
+        </Grid>
+    </Grid>
+</ui:FluentWindow>
